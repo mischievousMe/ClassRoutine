@@ -1,6 +1,7 @@
 package class_routine.controller;
 
 import java.sql.*;
+import java.util.ArrayList;
 
 import javax.sql.DataSource;
 
@@ -13,6 +14,7 @@ public class AdminController {
 
 	public static void insert(Admin newAdmin) throws ClassNotFoundException{
 		
+		
 		String sql = "INSERT INTO ADMIN_ACC_REQUEST (USERID, PASSWORD) VALUES (?, ?)";
 		Connection conn = null;
 		try {
@@ -23,6 +25,36 @@ public class AdminController {
 			ps.setString(2, newAdmin.getPassword());
 			ps.executeUpdate();
 			ps.close();
+ 
+		} catch (SQLException e) {
+			throw new RuntimeException(e);
+ 
+		} finally {
+			if (conn != null) {
+				try {
+					conn.close();
+				} catch (SQLException e) {}
+			}
+		}
+	}
+	
+	public static ArrayList<String> fetchAdminRequests() throws ClassNotFoundException {
+		String sql = "SELECT * FROM ADMIN_ACC_REQUEST";
+		Connection conn = null;
+		try {
+			Class.forName("org.sqlite.JDBC");
+		    conn = DriverManager.getConnection("jdbc:sqlite:/Users/shalini/Desktop/java/test.db");
+			PreparedStatement ps = conn.prepareStatement(sql);
+			ResultSet rs = ps.executeQuery();
+			ArrayList<String> users = new ArrayList<String>();
+			while(rs != null && rs.next()) {
+				String userID = rs.getString("USERID");
+				users.add(userID);
+				System.out.println(userID);
+			}
+			System.out.println(users.size());
+			ps.close();
+			return users;
  
 		} catch (SQLException e) {
 			throw new RuntimeException(e);

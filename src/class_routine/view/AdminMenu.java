@@ -7,6 +7,7 @@ import java.awt.GridBagLayout;
 import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.sql.SQLException;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -29,7 +30,7 @@ public class AdminMenu {
 	JFrame frame;
 	JButton pendingRequests;
 	JButton viewRoutine;
-	JButton logout;
+	JButton logout, modifyHalls, modifyCourses, modifyLecturers, thisSemCourses, modifyRoutine;
 	JPanel menuPanel,topPanel;
 	GridBagConstraints c;
 	JLabel welcomeLabel;
@@ -45,7 +46,56 @@ public class AdminMenu {
 	}
 	public void showDepartmentalAdminMenu() {
 		
+		frame = new JFrame("Admin Menu");
+		menuPanel = new JPanel(new GridBagLayout());
+		topPanel = new JPanel();
+		c = new GridBagConstraints();
+		menuPanel.setBackground(Palette.pastelBlue);
+		welcomeLabel = new JLabel("Welcome "+curAdmin.getUserID()+"!");
+		modifyHalls = new JButton("Modify Halls Data");
+		modifyHalls.setForeground(Palette.dark_lavender);
+		modifyHalls.setFont(Fonts.avenir);
+		modifyCourses = new JButton("Modify Courses Data");
+		modifyCourses.setForeground(Palette.dark_lavender);
+		modifyCourses.setFont(Fonts.avenir);
+		modifyLecturers = new JButton("Modify Lecturers Data");
+		modifyLecturers.setForeground(Palette.dark_lavender);
+		modifyLecturers.setFont(Fonts.avenir);
+		thisSemCourses = new JButton("Courses List in this Semester");
+		thisSemCourses.setForeground(Palette.dark_lavender);
+		thisSemCourses.setFont(Fonts.avenir);
+		modifyRoutine = new JButton("Modify Routine");
+		modifyRoutine.setForeground(Palette.dark_lavender);
+		modifyRoutine.setFont(Fonts.avenir);
+		viewRoutine = new JButton("View Routine");
+		viewRoutine.setForeground(Palette.dark_lavender);
+		viewRoutine.setFont(Fonts.avenir);
 		
+		c.insets = new Insets(10,10,10,10);
+		c.gridx = 0;
+		c.gridy = 0;
+		menuPanel.add(modifyHalls,c);
+		c.gridx = 0;
+		c.gridy = 1;
+		menuPanel.add(modifyLecturers,c);
+		c.gridx = 0;
+		c.gridy = 2;
+		menuPanel.add(modifyCourses,c);
+		c.gridx = 0;
+		c.gridy = 3;
+		menuPanel.add(thisSemCourses,c);
+		c.gridx = 0;
+		c.gridy = 4;
+		menuPanel.add(modifyRoutine,c);
+		c.gridx = 0;
+		c.gridy = 5;
+		menuPanel.add(viewRoutine,c);
+		
+		frame.setVisible(true);
+		frame.setSize(1200,800);
+		frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+		
+		frame.getContentPane().add(menuPanel,BorderLayout.CENTER);
 	}
 	public void showSuperAdminMenu() {
 		
@@ -95,7 +145,15 @@ public class AdminMenu {
 			public void actionPerformed(ActionEvent e) {
 				PendingRequestsMenu prMenu = new PendingRequestsMenu(curAdmin);
 				frame.dispose();
-				prMenu.pending_requests_ui();
+				try {
+					prMenu.pending_requests_ui();
+				} catch (ClassNotFoundException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				} catch (SQLException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
 			}
 		});
 		

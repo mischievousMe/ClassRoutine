@@ -101,8 +101,6 @@ public class ClassRoutineApplication {
 		titlePanel.add(appTag,ct);
 
 		
-		Container w = appFrame.getContentPane();
-		w.setBackground(Color.white);
 		
 	}
 	
